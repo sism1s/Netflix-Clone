@@ -14,7 +14,9 @@ function SingUpScreen() {
         emailRef.current.value,
         passwordRef.current.value
       )
-      .then(() => {})
+      .then((authUser) => {
+        console.log(authUser);
+      })
       .catch((error) => {
         alert(error.message);
       });
@@ -28,7 +30,9 @@ function SingUpScreen() {
         emailRef.current.value,
         passwordRef.current.value
       )
-      .then(() => {})
+      .then((authUser) => {
+        console.log(authUser);
+      })
       .catch((error) => {
         alert(error.message);
       });
