@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { auth } from "../firebase";
-import "./SingUpScreen.css";
+import "./SignUpScreen.css";
 
 function SingUpScreen() {
   const emailRef = useRef(null);
@@ -22,7 +22,7 @@ function SingUpScreen() {
       });
   };
 
-  const singIn = (e) => {
+  const signIn = (e) => {
     e.preventDefault();
 
     auth
@@ -41,16 +41,16 @@ function SingUpScreen() {
   return (
     <div className="singUpScreen">
       <form>
-        <h1>Sing In</h1>
+        <h1>Sign In</h1>
         <input ref={emailRef} placeholder="email" type="Email" />
         <input ref={passwordRef} type="password" placeholder="Password" />
-        <button type="submit" onClick={singIn}>
-          Sing In
+        <button type="submit" onClick={signIn}>
+          Sign In
         </button>
         <h4>
           <span className="singUpScreen__gray">New to Netflix? </span>
           <span className="singUpScreen__link" onClick={register}>
-            Sing Up now.
+            Sign Up now.
           </span>
         </h4>
       </form>
