@@ -8,6 +8,23 @@ import { loadStripe } from "@stripe/stripe-js";
 function PlanScreen() {
   const [products, setProducts] = useState([]);
   const user = useSelector(selectUser);
+  const [subsciption, setSubscription] = useState(null);
+
+  useEffect(() => {
+    db.collection("customers")
+      .doc(user.uid)
+      .collection("subscriptions")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach(async (subsciption) => {
+          setSubscription({
+            role: subsciption.data().role,
+            current_period_end: subsciption.data().current_period_end.seconds,
+            current_period_start: subsciption.data().current_period_end.seconds,
+          });
+        });
+      });
+  }, [user.uid]);
 
   useEffect(() => {
     db.collection("products")
@@ -58,17 +75,36 @@ function PlanScreen() {
 
   return (
     <div className="plansScreen">
+      {subsciption && (
+        <p>
+          Renewal date:
+          {new Date(
+            subsciption?.current_period_end * 1000
+          ).toLocaleDateString()}
+        </p>
+      )}
       {Object.entries(products).map(([productId, productData]) => {
-        //ad some logic if user is active
+        const isCurrentPackage = productData.name
+          ?.toLowerCase()
+          .includes(subsciption?.role);
 
         return (
-          <div className="planScreen__plan">
+          <div
+            key={productId}
+            className={`${
+              isCurrentPackage && "plansScreen__plan--disabled"
+            } planScreen__plan`}
+          >
             <div className="planScreen__info">
               <h5>{productData.name}</h5>
               <h6>{productData.description}</h6>
             </div>
-            <button onClick={() => loadCheckout(productData.prices.priceId)}>
-              Subscribe
+            <button
+              onClick={() =>
+                !isCurrentPackage && loadCheckout(productData.prices.priceId)
+              }
+            >
+              {isCurrentPackage ? "Current Package" : "Subscribe"}
             </button>
           </div>
         );
