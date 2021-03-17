@@ -9,6 +9,7 @@ function PlanScreen() {
   const [products, setProducts] = useState([]);
   const user = useSelector(selectUser);
   const [subsciption, setSubscription] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     db.collection("customers")
@@ -57,6 +58,8 @@ function PlanScreen() {
         cancel_url: window.location.origin,
       });
 
+    setLoading(true);
+
     docRef.onSnapshot(async (snap) => {
       const { error, sessionId } = snap.data();
 
@@ -75,6 +78,11 @@ function PlanScreen() {
 
   return (
     <div className="plansScreen">
+      {loading && (
+        <div className="planScreenloader">
+          <div className="loader"></div>
+        </div>
+      )}
       {subsciption && (
         <p>
           Renewal date:
@@ -100,6 +108,7 @@ function PlanScreen() {
               <h6>{productData.description}</h6>
             </div>
             <button
+              style={{ pointerEvents: loading && "none" }}
               onClick={() =>
                 !isCurrentPackage && loadCheckout(productData.prices.priceId)
               }

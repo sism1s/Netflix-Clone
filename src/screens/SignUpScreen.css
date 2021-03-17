@@ -19,6 +19,8 @@
 .singUpScreen > form > h4 {
   text-align: left;
   margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .singUpScreen__gray {

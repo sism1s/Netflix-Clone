@@ -1,10 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { auth } from "../firebase";
 import "./SignUpScreen.css";
 
-function SingUpScreen() {
+function SingUpScreen(email) {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const [signUp, setSignUp] = useState(false);
+  const loginEmail = email;
 
   const register = (e) => {
     e.preventDefault();
@@ -14,9 +16,7 @@ function SingUpScreen() {
         emailRef.current.value,
         passwordRef.current.value
       )
-      .then((authUser) => {
-        console.log(authUser);
-      })
+      .then((authUser) => {})
       .catch((error) => {
         alert(error.message);
       });
@@ -30,30 +30,57 @@ function SingUpScreen() {
         emailRef.current.value,
         passwordRef.current.value
       )
-      .then((authUser) => {
-        console.log(authUser);
-      })
+      .then((authUser) => {})
       .catch((error) => {
         alert(error.message);
       });
   };
 
+  console.log(loginEmail);
   return (
     <div className="singUpScreen">
-      <form>
-        <h1>Sign In</h1>
-        <input ref={emailRef} placeholder="email" type="Email" />
-        <input ref={passwordRef} type="password" placeholder="Password" />
-        <button type="submit" onClick={signIn}>
-          Sign In
-        </button>
-        <h4>
-          <span className="singUpScreen__gray">New to Netflix? </span>
-          <span className="singUpScreen__link" onClick={register}>
-            Sign Up now.
-          </span>
-        </h4>
-      </form>
+      {signUp ? (
+        <form>
+          <h1>Sign Up</h1>
+          <input
+            ref={emailRef}
+            placeholder="email"
+            type="Email"
+            value={email.email}
+          />
+
+          <input ref={passwordRef} type="password" placeholder="Password" />
+          <button type="submit" onClick={register}>
+            Sign Up
+          </button>
+          <h4>
+            <span
+              className="singUpScreen__link"
+              onClick={() => setSignUp(false)}
+            >
+              Go Back.
+            </span>
+          </h4>
+        </form>
+      ) : (
+        <form>
+          <h1>Sign In</h1>
+          <input ref={emailRef} placeholder="email" type="Email" />
+          <input ref={passwordRef} type="password" placeholder="Password" />
+          <button type="submit" onClick={signIn}>
+            Sign In
+          </button>
+          <h4>
+            <span className="singUpScreen__gray">New to Netflix? </span>
+            <span
+              className="singUpScreen__link"
+              onClick={() => setSignUp(true)}
+            >
+              Sign Up now.
+            </span>
+          </h4>
+        </form>
+      )}
     </div>
   );
 }

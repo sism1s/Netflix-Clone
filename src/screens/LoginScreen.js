@@ -4,7 +4,9 @@ import SingUpScreen from "./SignUpScreen";
 
 function LoginScreen() {
   const [signIn, setSignIn] = useState(false);
+  const [email, setEmail] = useState("");
 
+  console.log(email);
   return (
     <div className="loginScreen">
       <div className="loginScreen__background">
@@ -22,7 +24,7 @@ function LoginScreen() {
 
       <div className="loginScreen__body">
         {signIn ? (
-          <SingUpScreen />
+          <SingUpScreen email={email} />
         ) : (
           <>
             <h1>Unlimited films, TV programmes and more.</h1>
@@ -33,10 +35,15 @@ function LoginScreen() {
             </h3>
             <div className="loginScreen__input">
               <form>
-                <input type="email" placeholder="Email Address" />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
                 <button
                   className="loginScreen__getStarted"
                   onClick={() => setSignIn(true)}
+                  type="submit"
                 >
                   GET STARTED
                 </button>
