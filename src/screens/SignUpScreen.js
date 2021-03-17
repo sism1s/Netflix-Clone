@@ -6,7 +6,7 @@ function SingUpScreen(email) {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [signUp, setSignUp] = useState(false);
-  const loginEmail = email;
+  const [loginEmail, setLoginEmail] = useState(email.email);
 
   const register = (e) => {
     e.preventDefault();
@@ -36,7 +36,6 @@ function SingUpScreen(email) {
       });
   };
 
-  console.log(loginEmail);
   return (
     <div className="singUpScreen">
       {signUp ? (
@@ -44,9 +43,10 @@ function SingUpScreen(email) {
           <h1>Sign Up</h1>
           <input
             ref={emailRef}
-            placeholder="email"
+            placeholder="Email"
             type="Email"
-            value={email.email}
+            defaultValue={loginEmail}
+            onChange={(e) => setLoginEmail(e.target.value)}
           />
 
           <input ref={passwordRef} type="password" placeholder="Password" />
@@ -65,7 +65,12 @@ function SingUpScreen(email) {
       ) : (
         <form>
           <h1>Sign In</h1>
-          <input ref={emailRef} placeholder="email" type="Email" />
+          <input
+            ref={emailRef}
+            placeholder="Email"
+            type="Email"
+            defaultValue={loginEmail}
+          />
           <input ref={passwordRef} type="password" placeholder="Password" />
           <button type="submit" onClick={signIn}>
             Sign In

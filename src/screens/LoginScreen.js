@@ -6,7 +6,6 @@ function LoginScreen() {
   const [signIn, setSignIn] = useState(false);
   const [email, setEmail] = useState("");
 
-  console.log(email);
   return (
     <div className="loginScreen">
       <div className="loginScreen__background">
