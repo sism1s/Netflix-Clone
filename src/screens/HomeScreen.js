@@ -15,13 +15,37 @@ function HomeScreen() {
         fetchUrl={requests.fetchNetflixOriginals}
         isLargeRow
       />
-      <Row title="Trending Now" fetchUrl={requests.fetchingTrending} />
-      <Row title="Top Rated" fetchUrl={requests.fetchTopRated} />
-      <Row title="Action Movies" fetchUrl={requests.fetchActionMovies} />
-      <Row title="Comedy Movies" fetchUrl={requests.fetchComedyMovies} />
-      <Row title="Horror Movies" fetchUrl={requests.fetchHorrorMovies} />
-      <Row title="Romance  Movies" fetchUrl={requests.fetchRomanceMovies} />
-      <Row title="Documentaries" fetchUrl={requests.fetchDocumentaries} />
+      <Row
+        isLargeRow
+        title="Trending Now"
+        fetchUrl={requests.fetchingTrending}
+      />
+      <Row isLargeRow title="Top Rated" fetchUrl={requests.fetchTopRated} />
+      <Row
+        isLargeRow
+        title="Action Movies"
+        fetchUrl={requests.fetchActionMovies}
+      />
+      <Row
+        isLargeRow
+        title="Comedy Movies"
+        fetchUrl={requests.fetchComedyMovies}
+      />
+      <Row
+        isLargeRow
+        title="Horror Movies"
+        fetchUrl={requests.fetchHorrorMovies}
+      />
+      <Row
+        isLargeRow
+        title="Romance  Movies"
+        fetchUrl={requests.fetchRomanceMovies}
+      />
+      <Row
+        isLargeRow
+        title="Documentaries"
+        fetchUrl={requests.fetchDocumentaries}
+      />
     </div>
   );
 }

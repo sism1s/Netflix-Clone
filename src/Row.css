@@ -1,6 +1,7 @@
 .row {
   color: white;
   margin-left: 20px;
+  margin-right: 5px;
 }
 
 .row__posters {
@@ -33,4 +34,13 @@
 
 .row__posterLarge:hover {
   transform: scale(1.09);
+}
+
+.row__arrow {
+  font-size: 2rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  cursor: pointer;
+  margin-right: 12px;
+  color: #e50914;
 }
