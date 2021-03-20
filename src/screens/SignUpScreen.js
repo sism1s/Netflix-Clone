@@ -1,15 +1,19 @@
 import React, { useRef, useState } from "react";
 import { auth } from "../firebase";
 import "./SignUpScreen.css";
+import { isNotSubscribed } from "../actions";
+import { useDispatch } from "react-redux";
 
-function SingUpScreen(email) {
+function SingUpScreen({ email }) {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [signUp, setSignUp] = useState(false);
-  const [loginEmail, setLoginEmail] = useState(email.email);
+  const [loginEmail, setLoginEmail] = useState(email);
+  const dispatch = useDispatch();
 
   const register = (e) => {
     e.preventDefault();
+    dispatch(isNotSubscribed());
 
     auth
       .createUserWithEmailAndPassword(
@@ -24,6 +28,7 @@ function SingUpScreen(email) {
 
   const signIn = (e) => {
     e.preventDefault();
+    dispatch(isNotSubscribed());
 
     auth
       .signInWithEmailAndPassword(

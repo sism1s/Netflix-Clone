@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import db from "../firebase";
 import "./PlansScreen.css";
 import { loadStripe } from "@stripe/stripe-js";
+import { isSubscribed } from "../actions";
 
 function PlanScreen() {
   const [products, setProducts] = useState([]);
   const user = useSelector(selectUser);
-  const [subsciption, setSubscription] = useState(null);
+  // const sub = useSelector((state) => state.sub);
+  const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     db.collection("customers")
@@ -17,11 +20,12 @@ function PlanScreen() {
       .collection("subscriptions")
       .get()
       .then((querySnapshot) => {
-        querySnapshot.forEach(async (subsciption) => {
+        querySnapshot.forEach(async (subscription) => {
           setSubscription({
-            role: subsciption.data().role,
-            current_period_end: subsciption.data().current_period_end.seconds,
-            current_period_start: subsciption.data().current_period_end.seconds,
+            role: subscription.data().role,
+            current_period_end: subscription.data().current_period_end.seconds,
+            current_period_start: subscription.data().current_period_end
+              .seconds,
           });
         });
       });
@@ -43,6 +47,7 @@ function PlanScreen() {
             };
           });
         });
+
         setProducts(products);
       });
   }, []);
@@ -57,7 +62,6 @@ function PlanScreen() {
         success_url: window.location.origin,
         cancel_url: window.location.origin,
       });
-
     setLoading(true);
 
     docRef.onSnapshot(async (snap) => {
@@ -76,6 +80,10 @@ function PlanScreen() {
     });
   };
 
+  useEffect(() => {
+    if (subscription !== null) dispatch(isSubscribed());
+  }, [subscription, dispatch]);
+
   return (
     <div className="plansScreen">
       {loading && (
@@ -83,18 +91,18 @@ function PlanScreen() {
           <div className="loader"></div>
         </div>
       )}
-      {subsciption && (
+      {subscription && (
         <p>
           Renewal date:
           {new Date(
-            subsciption?.current_period_end * 1000
+            subscription?.current_period_end * 1000
           ).toLocaleDateString()}
         </p>
       )}
       {Object.entries(products).map(([productId, productData]) => {
         const isCurrentPackage = productData.name
           ?.toLowerCase()
-          .includes(subsciption?.role);
+          .includes(subscription?.role);
 
         return (
           <div

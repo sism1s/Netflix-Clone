@@ -5,9 +5,12 @@ import { auth } from "../firebase";
 import Nav from "../Nav";
 import "./ProfileScreen.css";
 import PlansScreen from "./PlansScreen";
+// import { isNotSubscribed } from "../actions";
 
 function ProfileScreen() {
   const user = useSelector(selectUser);
+  // const sub = useSelector((state) => state.sub);
+  // const dispatch = useDispatch();
 
   return (
     <div className="profileScreen">
@@ -25,9 +28,11 @@ function ProfileScreen() {
               <h3>Plans</h3>
               <PlansScreen />
               <button
+                // onClick={() => dispatch(isNotSubscribed())}
                 onClick={() => auth.signOut()}
                 className="profileScreen__signOut"
               >
+                {" "}
                 Sign Out
               </button>
             </div>

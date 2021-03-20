@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "./axios";
 import "./Row.css";
 import Details from "./Details";
-import { hydrate } from "react-dom";
 
 function Row({ title, fetchUrl, isLargeRow = false }) {
   const [movies, setMovies] = useState([]);
@@ -12,6 +11,18 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
   const [state, setState] = useState();
 
   const base_url = "https://image.tmdb.org/t/p/original/";
+
+  const movieID = state;
+
+  const movieClicks = [movies.slice(11)[movieID]];
+
+  const newPage = (direction) => {
+    if (direction === "next") {
+      setCurrentPage((prevCurrent) => prevCurrent + 1);
+    } else if (direction === "previous" && currentPage !== 1) {
+      setCurrentPage((prevCurrent) => prevCurrent - 1);
+    }
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -34,20 +45,12 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
     setButton(!button);
   };
 
-  const dummy = () => {};
-
-  const movieID = state;
-
-  const movieClicks = [movies.slice(11)[movieID]];
-
-  console.log(movieClicks);
-
   return (
     <div className="row">
       <h2>{title}</h2>
       <div className="row__posters">
         <i
-          onClick={() => setCurrentPage(currentPage - 1)}
+          onClick={() => newPage("previous")}
           className="fas fa-arrow-circle-left row__arrow"
         ></i>
         {/* {movies
@@ -73,7 +76,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
               <span key={i} className="row__poster">
                 <button
                   className="row__button"
-                  onClick={(dummy(), handleClick.bind(this, i))}
+                  onClick={handleClick.bind(this, i)}
                 >
                   <img
                     className="row__poster row__posterLarge"
@@ -86,7 +89,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
             )
         )}
         <i
-          onClick={() => setCurrentPage(currentPage + 1)}
+          onClick={() => newPage("next")}
           className="fas fa-arrow-circle-right row__arrow"
         ></i>
       </div>
@@ -94,8 +97,9 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
         movieClicks.map((movieClick, i) => (
           <span key={i}>
             <Details
-              title={movieClick.name}
+              title={movieClick.title || movieClick.name}
               image={movieClick.backdrop_path}
+              image2={movieClick.poster_path}
               overview={movieClick.overview}
             ></Details>
           </span>
