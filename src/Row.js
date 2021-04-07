@@ -10,7 +10,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
   const [button, setButton] = useState(false);
   const [state, setState] = useState();
 
-  const base_url = "https://image.tmdb.org/t/p/original/";
+  const base_url = "https://image.tmdb.org/t/p/w200/";
 
   const movieID = state;
 
